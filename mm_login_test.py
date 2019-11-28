@@ -62,7 +62,7 @@ class GithubWatchRepoTest(unittest.TestCase):
                                          <Deadline YYYY/MM/DD-HH:MM> <# issues> <Submission Link>""" == self.postmessage('/messages/@jarvisbot', 'create-submission '+ name + " " + date + link)
 
         def use_case_1_sad_2(self):
-            self.login(os.environ["PROFESSOR"], os.environ["PROFESSOR_PWD"])
+            self.login()
             date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
             name = 'test-sel1-' + date
             assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
