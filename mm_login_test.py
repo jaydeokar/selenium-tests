@@ -61,5 +61,13 @@ class GithubWatchRepoTest(unittest.TestCase):
             assert """Error invalid parameters. Usage: create-submission <name> 
                                          <Deadline YYYY/MM/DD-HH:MM> <# issues> <Submission Link>""" == self.postmessage('/messages/@jarvisbot', 'create-submission '+ name + " " + date + link)
 
+        def use_case_1_sad_2(self):
+            self.login(os.environ["PROFESSOR"], os.environ["PROFESSOR_PWD"])
+            date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
+            name = 'test-sel1-' + date
+            assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
+                                                           'create-submission ' + name + " " + date + " 2 "+link)
+            assert "Name already exists. Please provide a new Name." == self.postmessage('/messages/@jarvisbot', 'create-submission ' + name + " " + date + " 2 "+link)
+
         def tearDown(self):
             self.driver.close()
