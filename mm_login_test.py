@@ -99,7 +99,7 @@ class MattermostSeleniumTest(unittest.TestCase):
 
         def test_use_case_3_happy(self):
             self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
-            date = datetime.datetime.now() + datetime.timedelta(minutes=1)
+            date = datetime.datetime.now() + datetime.timedelta(minutes=2)
             date = date.strftime("%Y/%m/%d-%H:%M")
             name = 'test-sel3-' + date
             assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
@@ -115,7 +115,7 @@ class MattermostSeleniumTest(unittest.TestCase):
 
         def test_use_case_3_sad(self):
             self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
-            date = datetime.datetime.now() - datetime.timedelta(minutes=1)
+            date = datetime.datetime.now() - datetime.timedelta(minutes=2)
             date = date.strftime("%Y/%m/%d-%H:%M")
             name = 'test-sel3-' + date
             assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
