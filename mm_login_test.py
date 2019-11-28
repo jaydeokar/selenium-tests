@@ -61,7 +61,7 @@ class GithubWatchRepoTest(unittest.TestCase):
             assert """Error invalid parameters. Usage: create-submission <name> 
                                          <Deadline YYYY/MM/DD-HH:MM> <# issues> <Submission Link>""" == self.postmessage('/messages/@jarvisbot', 'create-submission '+ name + " " + date + link)
 
-        def use_case_1_sad_2(self):
+        def test_use_case_1_sad_2(self):
             self.login()
             date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
             name = 'test-sel1-' + date
