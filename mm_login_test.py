@@ -52,14 +52,14 @@ class GithubWatchRepoTest(unittest.TestCase):
             name = 'test-sel1-' + date
             assert "Submission Created." == self.postmessage('/messages/@jarvisbot','create-submission ' + name + "https://docs.google.com/spreadsheets/")
 
-		def test_use_case_1_sad(self):
-			self.login()
-			name = 'test-sel1'
-			date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
-			assert """Error invalid parameters. Usage: create-submission <name> 
+        def test_use_case_1_sad(self):
+            self.login()
+            name = 'test-sel1'
+            date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
+            assert """Error invalid parameters. Usage: create-submission <name> 
                                          <Deadline YYYY/MM/DD-HH:MM> <# issues> <Submission Link>""" == self.postmessage(
             '/messages/@jarvisbot', 'create-submission '
                                     + name + " " + date + link)
-									
+
         def tearDown(self):
             self.driver.close()
