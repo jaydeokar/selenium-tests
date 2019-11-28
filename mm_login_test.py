@@ -78,6 +78,25 @@ class MattermostSeleniumTest(unittest.TestCase):
             assert "Incorrect date format, should be YYYY/MM/DD-HH:MM." == self.postmessage('/messages/@jarvisbot',
                                                          'create-submission ' + name + " " + wrong_date + " 2 "+link)
 
+        def test_use_case_2_happy(self):
+            assert True == True
+
+        def test_use_case_2_sad(self):
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
+            date = datetime.datetime.now()
+            date = date.strftime("%Y/%m/%d-%H:%M")
+            name = 'test-sel2-' + date
+            assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
+                                                            'create-submission ' + name + " " + date + " 2 "+link)
+            self.logout()
+            sleep(10)
+            self.login("test@ncsu.edu","Jarvisbot@2019")
+
+            self.postmessage('/messages/@jarvisbot', 'show-rewards')
+            sleep(60)
+            assert "You received a Good-Job Reward for creating tasks." != self.postmessage('/messages/@jarvisbot')
+            self.logout()
+
         def test_use_case_3_happy(self):
             self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
             date = datetime.datetime.now() + datetime.timedelta(minutes=5)
