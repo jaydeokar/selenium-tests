@@ -93,5 +93,39 @@ class MattermostSeleniumTest(unittest.TestCase):
             assert "You received a Good Question Reward for posting a relevant question" == self.postmessage('/messages/@jarvisbot')
             self.logout()
 
+        def test_use_case_3_sad(self):
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
+            date = datetime.datetime.now() - datetime.timedelta(minutes=5)
+            date = date.strftime("%Y/%m/%d-%H:%M")
+            name = 'test-sel3-' + date
+            assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
+                                                            'create-submission ' + name + " " + date + " 2 "+link )
+            assert "Keywords added." == self.postmessage('/messages/@jarvisbot',
+                                                        'add-keywords ' + name + ' mockito,puppeteer')
+            self.logout()
+            self.login("test@ncsu.edu","Jarvisbot@2019")
+            self.postmessage('/messages/@jarvisbot', 'show-rewards')
+            self.postmessage('/channels/questions', "where is mockito used in the industry?")
+            sleep(10)
+            assert "You received a Good Question Reward for posting a relevant question" != self.postmessage('/messages/@jarvisbot')
+            self.logout()
+
+        def test_use_case_3_sad_2(self):
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
+            date = datetime.datetime.now() + datetime.timedelta(minutes=5)
+            date = date.strftime("%Y/%m/%d-%H:%M")
+            name = 'test-sel3-' + date
+            assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
+                                                            'create-submission ' + name + " " + date + " 2 "+link)
+            assert "Keywords added." == self.postmessage('/messages/@jarvisbot',
+                                                        'add-keywords ' + name + ' mockito,puppeteer')
+            self.logout()
+            self.login("test@ncsu.edu","Jarvisbot@2019")
+            self.postmessage('/messages/@jarvisbot', 'show-rewards')
+            self.postmessage('/channels/questions', "What is the deadline?")
+            sleep(10)
+            assert "You received a Good Question Reward for posting a relevant question" != self.postmessage('/messages/@jarvisbot')
+            self.logout()
+
         def tearDown(self):
             self.driver.close()
