@@ -86,7 +86,7 @@ class MattermostSeleniumTest(unittest.TestCase):
                                                              'create-submission ' + name + " " + date + " 2 "+link)
             assert "Keywords added." == self.postmessage('/messages/@jarvisbot','add-keywords ' + name + ' graphql,postgres')
             self.logout()
-            sleep(5)
+            sleep(10)
             self.login("test@ncsu.edu","Jarvisbot@2019")
             self.postmessage('/channels/questions', "where is graphql used in the industry?")
             sleep(10)
@@ -103,6 +103,7 @@ class MattermostSeleniumTest(unittest.TestCase):
             assert "Keywords added." == self.postmessage('/messages/@jarvisbot',
                                                         'add-keywords ' + name + ' mockito,puppeteer')
             self.logout()
+            sleep(10)
             self.login("test@ncsu.edu","Jarvisbot@2019")
             self.postmessage('/messages/@jarvisbot', 'show-rewards')
             self.postmessage('/channels/questions', "where is mockito used in the industry?")
@@ -120,6 +121,7 @@ class MattermostSeleniumTest(unittest.TestCase):
             assert "Keywords added." == self.postmessage('/messages/@jarvisbot',
                                                         'add-keywords ' + name + ' mockito,puppeteer')
             self.logout()
+            sleep(10)
             self.login("test@ncsu.edu","Jarvisbot@2019")
             self.postmessage('/messages/@jarvisbot', 'show-rewards')
             self.postmessage('/channels/questions', "What is the deadline?")
