@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 
 link="https://docs.google.com/spreadsheets/d/1YzP8PrQ_wncYIRF5d45BlmCIe_-1oIKQpdNDjFiZNhI/edit#gid=0"
 
-class GithubWatchRepoTest(unittest.TestCase):
+class MattermostSeleniumTest(unittest.TestCase):
 
         def setUp(self):
             self.teamname = "csc-510-f19"
@@ -25,9 +25,9 @@ class GithubWatchRepoTest(unittest.TestCase):
             self.driver.get(self.url)
             sleep(10)
 
-        def login(self):
-            self.driver.find_element_by_name('loginId').send_keys("jsdeokar@ncsu.edu")
-            self.driver.find_element_by_name('password').send_keys("Jarvisbot@2019")
+        def login(self,email,password):
+            self.driver.find_element_by_name('loginId').send_keys(email)
+            self.driver.find_element_by_name('password').send_keys(password)
             self.driver.find_element_by_id('loginButton').click()
             sleep(10)
 
@@ -49,25 +49,49 @@ class GithubWatchRepoTest(unittest.TestCase):
             return a[-1].text
 
         def test_use_case_1_happy(self):
-            self.login()
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
             date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
             name = 'test-sel1-' + date
             assert "Submission Created." == self.postmessage('/messages/@jarvisbot', 'create-submission ' + name + " " + date + " 2 " + link)
 
         def test_use_case_1_sad(self):
-            self.login()
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
             name = 'test-sel1'
             date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
             assert """Error invalid parameters. Usage: create-submission <name> 
                                          <Deadline YYYY/MM/DD-HH:MM> <# issues> <Submission Link>""" == self.postmessage('/messages/@jarvisbot', 'create-submission '+ name + " " + date + link)
 
         def test_use_case_1_sad_2(self):
-            self.login()
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
             date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
             name = 'test-sel1-' + date
             assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
                                                            'create-submission ' + name + " " + date + " 2 "+link)
             assert "Name already exists. Please provide a new Name." == self.postmessage('/messages/@jarvisbot', 'create-submission ' + name + " " + date + " 2 "+link)
+
+        def test_use_case_1_sad_3(self):
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
+            date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
+            wrong_date = datetime.datetime.now().strftime("%Y/%m/%d")
+            name = 'test-sel1-' + date
+            assert "Incorrect date format, should be YYYY/MM/DD-HH:MM." == self.postmessage('/messages/@jarvisbot',
+                                                         'create-submission ' + name + " " + wrong_date + " 2 "+link)
+
+        def test_use_case_3_happy(self):
+            self.login("jsdeokar@ncsu.edu","Jarvisbot@2019")
+            date = datetime.datetime.now() + datetime.timedelta(minutes=5)
+            date = date.strftime("%Y/%m/%d-%H:%M")
+            name = 'test-sel3-' + date
+            assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
+                                                             'create-submission ' + name + " " + date + " 2 "+link)
+            assert "Keywords added." == self.postmessage('/messages/@jarvisbot','add-keywords ' + name + ' graphql,postgres')
+            self.logout()
+            sleep(5)
+            self.login("test@ncsu.edu","Jarvisbot@2019")
+            self.postmessage('/channels/questions', "where is graphql used in the industry?")
+            sleep(10)
+            assert "You received a Good Question Reward for posting a relevant question" == self.postmessage('/messages/@jarvisbot')
+            self.logout()
 
         def tearDown(self):
             self.driver.close()
