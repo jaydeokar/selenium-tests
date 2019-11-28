@@ -102,7 +102,7 @@ class MattermostSeleniumTest(unittest.TestCase):
             assert "Submission Created." == self.postmessage('/messages/@jarvisbot',
                                                             'create-submission ' + name + " " + date + " 2 "+link )
             assert "Keywords added." == self.postmessage('/messages/@jarvisbot',
-                                                        'add-keywords ' + name + ' mockito,puppeteer')
+                                                        'add-keywords ' + name + ' puppeteer')
             self.logout()
             sleep(10)
             self.login("test@ncsu.edu","Jarvisbot@2019")
