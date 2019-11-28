@@ -32,6 +32,7 @@ class MattermostSeleniumTest(unittest.TestCase):
             sleep(10)
 
         def logout(self):
+            sleep(3)
             self.driver.find_element_by_id('headerInfo').click()
             self.driver.find_element_by_id('logout').click()
             sleep(2)
