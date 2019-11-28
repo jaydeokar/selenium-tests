@@ -5,6 +5,8 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+link="https://docs.google.com/spreadsheets/d/1YzP8PrQ_wncYIRF5d45BlmCIe_-1oIKQpdNDjFiZNhI/edit#gid=0"
+
 class GithubWatchRepoTest(unittest.TestCase):
 
         def setUp(self):
@@ -50,16 +52,14 @@ class GithubWatchRepoTest(unittest.TestCase):
             self.login()
             date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
             name = 'test-sel1-' + date
-            assert "Submission Created." == self.postmessage('/messages/@jarvisbot','create-submission ' + name + "https://docs.google.com/spreadsheets/")
+            assert "Submission Created." == self.postmessage('/messages/@jarvisbot', 'create-submission ' + name + " " + date + " 2 " + link)
 
         def test_use_case_1_sad(self):
             self.login()
             name = 'test-sel1'
             date = datetime.datetime.now().strftime("%Y/%m/%d-%H:%M")
             assert """Error invalid parameters. Usage: create-submission <name> 
-                                         <Deadline YYYY/MM/DD-HH:MM> <# issues> <Submission Link>""" == self.postmessage(
-            '/messages/@jarvisbot', 'create-submission '
-                                    + name + " " + date + link)
+                                         <Deadline YYYY/MM/DD-HH:MM> <# issues> <Submission Link>""" == self.postmessage('/messages/@jarvisbot', 'create-submission '+ name + " " + date + link)
 
         def tearDown(self):
             self.driver.close()
